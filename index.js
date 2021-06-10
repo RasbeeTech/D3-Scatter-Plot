@@ -8,32 +8,32 @@ xhr.onload = () => {
 }
 
 function scatterPlot(dataset){
-    console.log(dataset);
-
     const height = 400;
     const width = 800;
     const padding = 60;
     
     let timeFormat = d3.timeFormat('%M:%S');
-    const years = dataset.map((data) => {
-        console.log(typeof data.Year);
-        return data.Year;
-    });
-    const xScale = d3.scaleLinear()
-                     .domain(d3.min(years), d3.max(years))
-                     .range([padding, width - padding]);
-    
+
+    const years = dataset.map((data) => data.Year);
     const times = dataset.map((data) => {
-        return data.Time;
+        let parsedTime = data.Time.split(':');
+        return new Date(2021, 0, 1, 0, parsedTime[0], parsedTime[1]);
     });
-    var xAxis = d3.axisBottom(xScale).tickFormat(d3.format('d'));
+    console.log('years:', years);
+    console.log('times:', times);
+
+    const xScale = d3.scaleLinear()
+                     .domain([d3.min(years) -1 , d3.max(years) + 1])
+                     .range([padding, width - padding]);
+
     const yScale = d3.scaleTime()
-                     .domain(d3.min(times), d3.max(times))
+                     .domain(d3.extent(times))
                      .range([padding, height - padding]);
     
+    var xAxis = d3.axisBottom(xScale).tickFormat(d3.format('d'));
     var yAxis = d3.axisLeft(yScale).tickFormat(timeFormat);
-    console.log(years);
-    console.log(times);
+    console.log(xScale(years[5]));
+    console.log(yScale(times[5]));
 
     const svg = d3.select('.visContainer')
                   .append('svg')
@@ -48,7 +48,16 @@ function scatterPlot(dataset){
        .attr('data-xvalue',(d) => d.Year)
        .attr('data-yvalue',(d) => d.Time)
        .attr('cx', (d) => xScale(d.Year))
-       .attr('cy', (d) => yScale(d.Time))
+       .attr('cy', (d, i) => yScale(times[i]))
        .attr('r', 5);
-                  
-}
+    
+    svg.append('g')
+       .attr('id', 'x-axis')
+       .attr('transform', 'translate(0,' + (height - padding) + ')')
+       .call(xAxis);
+
+    svg.append('g')
+       .attr('id', 'y-axis')
+       .attr('transform', 'translate(' + padding + ', 0)')
+       .call(yAxis);
+};
