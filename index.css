@@ -23,3 +23,18 @@ body {
 .visContainer {
     background-color: grey;
 }
+#tooltip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    text-align: start;
+    width: 150px;
+    height: 50px;
+    padding: 2px;
+    font: 12px;
+    background: white;
+    box-shadow: 1px 1px 10px;
+    border-radius: 2px;
+    pointer-events: none;
+  }
