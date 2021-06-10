@@ -21,7 +21,7 @@ body {
     padding-top: 30px;
 }
 .visContainer {
-    background-color: grey;
+    background-color: white;
 }
 #tooltip {
     display: flex;
@@ -29,8 +29,8 @@ body {
     justify-content: center;
     position: absolute;
     text-align: start;
-    width: 150px;
-    height: 50px;
+    width: 170px;
+    height: 70px;
     padding: 2px;
     font: 12px;
     background: white;

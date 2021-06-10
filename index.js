@@ -8,7 +8,6 @@ xhr.onload = () => {
 }
 
 function scatterPlot(dataset){
-    console.log(dataset);
     // SVG constants.
     const height = 400;
     const width = 800;
@@ -45,7 +44,8 @@ function scatterPlot(dataset){
     const tooltip = d3.select('.visContainer')
                       .append('div')
                       .attr('id', 'tooltip')
-                      .style('opacity', 0);
+                      .style('opacity', 0)
+                      .attr('data-year', 2021);
 
     // Create SVG.
     const svg = d3.select('.visContainer')
